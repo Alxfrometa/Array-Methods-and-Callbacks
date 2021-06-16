@@ -29,7 +29,9 @@ hint - you should be looking at the stage key inside of the objects
 */
 
 function getFinals(data) {
-   /* code here */
+   const allFinals = data.filter(function(item){
+       return item.Stage === "Final"});
+    return allFinals;
 }
 
 
@@ -40,9 +42,11 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
-}
+function getYears(data, cb) {
+    return cb(data).map(function(item){
+        return item.Year;
+    }
+ )};
 
 
 
@@ -53,8 +57,10 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(data, cb) {
+    return cb(data).map(function(item) {
+        return item["Home Team Goals"] > item["Away Team Goals"] ? item["Home Team Name"] : item["Away Team Name"]
+    })
 }
 
 
@@ -69,8 +75,12 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(data, cbYears, cbWinners) {
+    const winner = cbWinners(data, getFinals)
+    const year = cbYears(data, getFinals)
+    return winner.map(function(item,i){
+        return `In ${year[i]}, ${item} won the world cup!`
+    })
 }
 
 
